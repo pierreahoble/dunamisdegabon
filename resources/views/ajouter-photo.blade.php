@@ -1,0 +1,64 @@
+@extends('layout2')
+@section('title', 'Ajouter photo')
+@section('content')
+ <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbss">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Ajouter photo</h2>
+          <ol>
+            <li>
+			@if (session('user')->roles == "Admin") 
+            <a href="{{route('tableau_de_bord')}}">Tableau de bord</a>
+		@elseif (session('user')->roles == "Client") 
+		    <a href="{{route('tableaudebord')}}">Tableau de bord</a>
+		@elseif (session('user')->roles == "Consultant") 
+		    <a href="{{route('tableaudebordconsultant')}}">Tableau de bord</a>
+		@else
+			<a href="{{route('tb_de_bord')}}">Tableau de bord</a>
+		@endif
+			</li>
+            <li>Ajouter photo</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="row mt-12" data-aos="fade-up">
+          <div class="col-lg-12">
+		  @if (session('status'))
+				<div class="alert alert-success" style="font-size: 15px; background-color: #328039; color: white">
+					<i class="ti-check"></i> {{ session('status') }}
+				</div>
+			@endif
+
+			@if (session('error'))
+				<div class="alert alert-danger" style="font-size: 15px;color: white">
+					<i class="ti-na"></i> {{ session('error') }}
+				</div>
+			@endif
+		    <form method="post" action="{{route('photopost')}}" role="form" class="php-email-form" enctype="multipart/form-data">
+            {{csrf_field()}}
+			<br/>
+			<div class="form-row">
+				<div class="col-md-5 form-group">
+				<label class="label-control">Importer votre photo passeport<font color="red">*</font></label>
+                  <input type="file" name="photo" class="file-upload-default" required>
+                </div>
+                </div>
+              <div class="form-row">
+				<div class="col-md-12 form-group">
+				<button type="submit" class="btn btn-primary">
+						<i class="icofont-tick-mark"></i> Enregistrer
+				</button>
+				</div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Contact Section -->
+@endsection
