@@ -8,12 +8,19 @@ use Illuminate\Http\Request;
 use Spatie\Sitemap\Tags\Url;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use EntMiddleware;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Artesaos\SEOTools\Facades\OpenGraph;
 
 class HomeController extends Controller
 {
+
+
+  public function __construct()
+{
+    $this->middleware('EntMiddleware')->only(['tb_de_bord','voir','liste','enregistrer']);
+}
 	
 	public function be()
     {
@@ -315,13 +322,15 @@ class HomeController extends Controller
         }
       return view('tableaudebord');
     }
+
+
+
 	public function tb_de_bord()
     {
-		if(session('user')== null) {
-            return redirect('/login');
-        }
       return view('tb_de_bord');
     }
+
+
 	
     function Connecter (Request $request){
         $email= request("email");

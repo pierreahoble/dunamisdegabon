@@ -2,7 +2,10 @@
 @section('title','Tableau de bord')
 
 @section('style')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css"
+	integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 
 @section('content')
@@ -71,12 +74,11 @@
 				</div>
 				@endif
 			</div>
-			<div class="col-lg-4 col-md-4 d-flex align-items-stretch">
+			<div class="col-lg-3 col-md-4 d-flex align-items-stretch">
 				<div class="member" data-aos="fade-up">
 					<div class="member-img">
 						@php
-						$f = DB::table('inscription_operateur')->where('email',
-						Auth::user()->email)->first()->fichier;
+						$f = DB::table('inscription_operateur')->where('email',Auth::user()->email)->first()->fichier;
 						$id = DB::table('inscription_operateur')->where('email', Auth::user()->email)->first()->id;
 						@endphp
 						@if ($f =="")
@@ -84,7 +86,8 @@
 						<a type="button" href="{{route('ajouter-photo-operateur')}}" class="btn btn-info"
 							style="text-align:center;width:100%;color:#fff;">Mettre à jour mon image</a>
 						@else
-						<img src="{{asset("storage/".$f)}}" style="height:510;width:510;" class="img-fluid img-thumbnail mb-2">
+						<img src="{{asset("storage/".$f)}}" style="height:510;width:510;"
+							class="img-fluid img-thumbnail mb-2">
 						<a type="button" href="{{route('ajouter-photo-operateur')}}" class="btn btn-info"
 							style="text-align:center;width:100%;color:#fff;">Mettre à jour mon image</a>
 						@endif
@@ -93,24 +96,74 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-8 col-md-8">
-				<div class="icon-box">
-					<i class="ri-store-line" style="color: #ffbb2c;"></i>
-					<h3><a href="">Nom :
-							{{DB::table('users')->where('id',Auth::user()->id)->first()->name}}</a><br />
-						<hr />
-						<a href="">Raison sociale :
-							{{DB::table('inscription_operateur')->where('email',Auth::user()->email)->first()->raison_sociale}}</a><br />
-						<hr />
-						<a href="">Département :
-							{{DB::table('inscription_operateur')->where('email',Auth::user()->email)->first()->departement}}</a><br />
-						<hr />
-						<a href="">Province :
-							{{DB::table('inscription_operateur')->where('email',Auth::user()->email)->first()->province}}</a><br />
-						<hr />
-						<a href="">Mon statut :
-							{{DB::table('users')->where('id',Auth::user()->id)->first()->roles}}</a>
-					</h3>
+			<div class="col-lg-9 col-md-9">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="icon-box">
+							{{-- <i class="ri-store-line" style="color: #ffbb2c;"></i> --}}
+							<i class="ri-store-line"></i>
+							<h3><a href="#">Nom :
+									{{DB::table('users')->where('id',Auth::user()->id)->first()->name}}</a><br />
+								<hr />
+								<a href="#">Raison sociale :
+									{{DB::table('inscription_operateur')->where('email',Auth::user()->email)->first()->raison_sociale}}</a><br />
+								<hr />
+								<a href="#">Département :
+									{{DB::table('inscription_operateur')->where('email',Auth::user()->email)->first()->departement}}</a><br />
+								<hr />
+								<a href="#">Province :
+									{{DB::table('inscription_operateur')->where('email',Auth::user()->email)->first()->province}}</a><br />
+								<hr />
+								<a href="#">Mon statut :
+									{{DB::table('users')->where('id',Auth::user()->id)->first()->roles}}</a>
+							</h3>
+						</div>
+					</div>
+
+
+					<div class="col-lg-6">
+						<div class="icon-box">
+
+							<h3>
+								<a href="#">Code d'invitation :
+									@php
+									$code1 =
+									DB::table('users')->where('id',Auth::user()->id)->first()->code_dinvitation;
+									echo $code1;
+									@endphp
+								</a> <br>
+								<hr>
+								<a href="#">Total de tous mes achats :
+									{{DB::table('achat')->where('code_client',Auth::user()->code_dinvitation)->get()->sum('montant')}}
+									F</a>&nbsp; <a href="{{route('liste_des_achats')}}"
+									style="color:red;font-weight:200;"> Voir la liste
+									>>></a> <br>
+								<hr>
+								<a href="#"> Commission sur les achats :
+									{{DB::table('commision_client')->where('code_client',Auth::user()->code_dinvitation)->get()->sum('montant')}}
+									F</a> <br> <hr>
+
+								<a href="">  <i class="ri-price-tag-2-line" style="color: #4233ff; height: 3%;"></i> Bonus de parrainage :
+									@php
+									$d =
+									\Illuminate\Support\Facades\DB::table('bonus_parrainage')->where('parrain_id',Auth::user()->id)->get()->sum('montant');
+									$d = number_format($d, 0, ' ', ' ');
+									echo $d."&nbsp;FCFA";
+									@endphp</a> <br> <hr>
+									<a href="">Bonus de fin d’année : </a> <br> <hr>
+									<a href="">Total amis parrainés :
+										{{DB::table('parrainage')->where('parrain_id',Auth::user()->id)->count()}}</a> <br> <hr>
+
+
+							</h3>
+
+							</h3>
+
+						</div>
+					</div>
+
+
+
 				</div>
 			</div>
 		</div>
@@ -162,7 +215,7 @@
 		@endphp
 		<div class="row">
 			<div class="icon-box">
-				<table border="1"  id="myTable">
+				<table border="1" id="myTable">
 					<tr>
 						<th colspan="3" style="text-align:center;width:350px;height:25px;">Images de produits ajoutées
 						</th>
@@ -192,10 +245,18 @@
 
 @push('scripts')
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap.min.js" integrity="sha512-F0E+jKGaUC90odiinxkfeS3zm9uUT1/lpusNtgXboaMdA3QFMUez0pBmAeXGXtGxoGZg3bLmrkSkbK1quua4/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.dataTables.min.js" integrity="sha512-fQmyZE5e3plaa6ADOXBM17WshoZzDIvo7sR4GC1VsmSKqm13Ed8cO2kPwFPAOoeF0RcdhuQQlPq46X/HnPmllg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
+	integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap.min.js"
+	integrity="sha512-F0E+jKGaUC90odiinxkfeS3zm9uUT1/lpusNtgXboaMdA3QFMUez0pBmAeXGXtGxoGZg3bLmrkSkbK1quua4/Q=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.dataTables.min.js"
+	integrity="sha512-fQmyZE5e3plaa6ADOXBM17WshoZzDIvo7sR4GC1VsmSKqm13Ed8cO2kPwFPAOoeF0RcdhuQQlPq46X/HnPmllg=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js"
+	integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
 
@@ -208,6 +269,6 @@
 	});
 } );
 </script>
-	
+
 @endpush
 @endsection

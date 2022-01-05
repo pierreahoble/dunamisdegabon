@@ -47,7 +47,8 @@
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
-
+      @auth
+          
       <h3 class="logo mr-auto" style="font-size:14px;">
         @if (Auth::user()->roles == "Admin")
         <a href="{{route('tableau_de_bord')}}"><img src="{{asset('assets/img/logo.jpg')}}" class="img-fluid" /></a>
@@ -57,6 +58,7 @@
         <a href="{{route('tb_de_bord')}}"><img src="{{asset('assets/img/logo.jpg')}}" class="img-fluid" /></a>
         @endif
       </h3>
+      @endauth
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.jpg" alt="" class="img-fluid"></a>-->
 

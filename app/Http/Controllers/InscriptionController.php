@@ -471,8 +471,11 @@ class InscriptionController extends Controller
                 [
                     'nom_fichier' => $name,
                     'fichier' => $photo->storeAs('Signatures', time(). '_'.$name, 'public'),
-                ]
+                ]   
             );
+            $filename=$photo->storeAs('Signatures', time(). '_'.$name, 'public');
+            $photo->move('storage/Signatures',$filename);
+
         return redirect()->route('tb_de_bord')->with('status', 'Photo de profil mise à jour avec succès !');
     }
 	//SUPPRIMER

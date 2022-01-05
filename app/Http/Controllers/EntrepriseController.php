@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class EntrepriseController extends Controller
 {
@@ -158,7 +159,7 @@ class EntrepriseController extends Controller
 	function ajoutcatalogue (Request $request) {
 
         $photo=$request->file('photo');
-		$id = DB::table('inscription_operateur')->where('email', session('user')->email)->first()->id;
+		$id = DB::table('inscription_operateur')->where('email', Auth::user()->email)->first()->id;
 		$count = DB::table('catalogue_operateur')->where('inscription_id', $id)->get()->count();
 		if ($count == 3){
 			return redirect()->route('ajouter-catalogue')->with('error', 'Vous ne pouvez plus ajouter d\'images. La limite est atteint (3)!');
@@ -172,6 +173,8 @@ class EntrepriseController extends Controller
                     'fichier' => $photo->storeAs('Passeport', time(). '_'.$name, 'public'),
                 ]
             );
+            $filename=$photo->storeAs('Passeport', time(). '_'.$name, 'public');
+            $photo->move('storage/Passeport',$filename);
         return redirect()->route('ajouter-catalogue')->with('status', 'Image de catalogue ajoutée avec succès !');
     }}
 }

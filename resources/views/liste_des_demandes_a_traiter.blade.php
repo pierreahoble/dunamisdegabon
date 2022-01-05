@@ -1,5 +1,11 @@
 @extends('layout2')
 @section('title','Liste des demandes à traiter')
+
+
+@section('style')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endsection
+
 @section('content')
 <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbss">
@@ -55,7 +61,7 @@
             </h2>
 			 <br>
             <div class="table-responsive table-hover container">
-				<table border="1" style="width:1300px;">
+				<table border="1" style="width:1300px;" id="myTable">
 				    <thead>
 						<tr>
 							<th width="220px">N°</th>
@@ -198,12 +204,27 @@
 			</div>
 	</div>
 	@push('scripts')
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.dataTables.min.js" integrity="sha512-fQmyZE5e3plaa6ADOXBM17WshoZzDIvo7sR4GC1VsmSKqm13Ed8cO2kPwFPAOoeF0RcdhuQQlPq46X/HnPmllg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+	<script>
+		$(document).ready( function () {
+		$('#myTable').DataTable({
+			language: {
+			url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/French.json'
+		}
+		});
+	} );
+	</script>
+		
     
     <script>
-
-           
-
-            $(".data-valider").on('click', function () {
+    
+     $(".data-valider").on('click', function () {
                     var id=$(this).data('id');
                     $.get('Demandes/'+id, function (data) {
                     

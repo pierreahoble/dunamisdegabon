@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Validator;
+use Illuminate\Support\Facades\Auth;
 //use Illuminate\Pagination\Paginator;
 
 class AchatController extends Controller
@@ -18,15 +19,13 @@ class AchatController extends Controller
     }
 	public function liste()
     {
-		if(session('user')== null) {
-            return redirect('/login');
-        }
-		if(session('user')->roles == 'Admin'){
+		
+		if(Auth::user()->roles == 'Admin'){
         $achat = DB::table('achat')->get();
-        } else if(session('user')->roles == 'Client'){
-        $achat = DB::table('achat')->where('code_client',session('user')->code_dinvitation)->get();
+        } else if(Auth::user()->roles == 'Client'){
+        $achat = DB::table('achat')->where('code_client',Auth::user()->code_dinvitation)->get();
             } else {
-        $achat = DB::table('achat')->where('users_id',session('user')->id)->get();
+        $achat = DB::table('achat')->where('users_id',Auth::user()->id)->get();
             }
 		return view('liste_des_achats',[
 		'achat' => $achat,

@@ -9,9 +9,9 @@
           <h2>Ajouter un nouveau projet</h2>
           <ol>
             <li>
-			@if (session('user')->roles == "Admin") 
+			@if (Auth::user()->roles == "Admin") 
             <a href="{{route('tableau_de_bord')}}">Tableau de bord</a>
-		@elseif (session('user')->roles == "Client") 
+		@elseif (Auth::user()->roles == "Client") 
 		    <a href="{{route('tableaudebord')}}">Tableau de bord</a>
 		@else
 			<a href="{{route('tb_de_bord')}}">Tableau de bord</a>
