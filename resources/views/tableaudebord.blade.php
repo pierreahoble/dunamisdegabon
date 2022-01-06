@@ -126,13 +126,14 @@
         </div>
       </div>
     </div>
-    <div class="row" hidden>
+    
+    <div class="row" >
       <div class="col-lg-12 col-md-4 mt-4">
         <div class="icon-box">
           <i class="ri-price-tag-2-line" style="color: #4233ff;"></i>
           <h3>Lien d'invitation :
             @php
-            $code = route('inviter',['users_id'=>Auth::user()->id,'code_dinvitation'=>Auth::user()->code_dinvitation]);
+            $code = route('inviter',['users_id'=>Str::limit(Crypt::encrypt(Auth::user()->id),10),'code_dinvitation'=>Auth::user()->code_dinvitation]);
             echo "<span id='tocopy'>Bonjour je vous invite à vous inscrire sur la plateforme dunamisdegabon; En devenant
               client DUNAMIS CLUB, nous vous donnons la possibilité,
               de disposer des revenus supplémentaires par vos simples achats. DUNAMIS DEVELOPPEMENT et les entreprises

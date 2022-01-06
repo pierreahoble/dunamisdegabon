@@ -15,6 +15,7 @@ class Search extends Component {
             itemsCountPerPage:1,
             totalItemsCount:1,
             pageRangeDisplayed:3,
+            messageBag:'Aucun résultat ne correspond à votre recherche ...',
         };
     }
 
@@ -50,7 +51,8 @@ class Search extends Component {
                         <div className="card-body">
                             <h5 className="card-title">
                                 <i className="icofont-ui-home"></i>
-                                {data.raison_sociale}
+                                <a href={"operateur-info/"+data.id} >{data.raison_sociale}</a>
+                                
                             </h5>
 
                             <div className="entry-meta">
@@ -75,7 +77,7 @@ class Search extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            <a href="#" className="offset-2">
+                            <a href={"operateur-info/"+data.id} className="offset-2">
                                 En savoir plus
                             </a>
                         </div>
@@ -97,12 +99,13 @@ class Search extends Component {
                             className="img-fluid"
                         />
                         <h4>
-                            <a href="{{route('operateur-info', ['id'=>$operateur2->id])}}">
-                                {data.raison_sociale}
+                            <a href={"operateur-info/"+data.id}>
+                                {data.raison_sociale} <br />
+                                {/* {data.domaine} <br /> */}
+                                {data.dateins}
                             </a>
+                        {/* <time dateTime="2020-01-01">{data.dateins}</time> */}
                         </h4>
-                        <h6>{data.domaine}</h6>
-                        <time dateTime="2020-01-01">{data.dateins}</time>
                     </div>
                 </div>
             );
@@ -146,6 +149,11 @@ class Search extends Component {
     }
 
 
+    messageNotFound(){
+        return <h3 className="text-center">{this.state.messageBag}</h3>
+    }
+
+
 
     render() {
         return (
@@ -159,7 +167,8 @@ class Search extends Component {
                                     data-aos="fade-up"
                                 >
                                     <div className="row">
-                                        {this.displayAllProjects()}
+                                        {this.state.tabProjet.length > 0 ? this.displayAllProjects() : this.messageNotFound() }
+                                        
                                     </div>
                                 </article>
                             </div>

@@ -1,4 +1,4 @@
-@extends('layout3')
+@extends('layout2')
 @section('title', 'Inscription opérateur')
 @section('content')
 <!-- ======= Breadcrumbs ======= -->

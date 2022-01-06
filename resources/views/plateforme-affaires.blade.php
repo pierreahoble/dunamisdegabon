@@ -71,7 +71,7 @@
           <div class="sidebar-item recent-posts">
             @foreach($operateur2 as $operateur2)
             <div class="post-item clearfix">
-              <img src="{{asset(" public/storage/".$operateur2->fichier)}}" alt="">
+              <img src="{{asset("public/storage/".$operateur2->fichier)}}" alt="">
               <h4><a href="#">{{$operateur2->raison_sociale}}</a>
                 <br /><span>{{$operateur2->domaine}}</span>
                 <br /><span>{{$operateur2->dateins}}</span>

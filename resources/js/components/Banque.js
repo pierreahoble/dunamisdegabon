@@ -10,7 +10,7 @@ export class Banque extends Component {
         this.state = {
             tabProjet: [],
             typeProjet: [],
-            selectvalue: "",
+            selectvalue: "Agriculture",
             activePage: 1,
             itemsCountPerPage:5,
             totalItemsCount: 3,
@@ -84,12 +84,12 @@ export class Banque extends Component {
         var selected = this.state.selectvalue
         setTimeout(() => {
             
-            if (selected) {
+            if (selected.length > 0) {
                 axios.get('select_type_categorie/'+this.state.selectvalue).then((response)=>{
                     var data = response.data.data
-                    data.length>0? this.setState({
+                     this.setState({
                         tabProjet: data
-                    }):this.getAll()
+                    })
                 })
             }
         }, 100);
@@ -108,6 +108,28 @@ export class Banque extends Component {
                 activePage: data.projet.current_page
             });
         });
+    }
+
+
+    //Message not found
+    messageNotFound(){
+        return <div className="container">
+            <div  className="col-lg-12 col-md-12 d-flex align-items-stretch typeprojet">
+            <h3 className="text-center" >Aucun résultat ne correspond à votre recherche ... </h3>
+        </div>
+        </div>
+    }
+
+    paginatedisplay(){
+        return <Pagination
+        itemClass={"page-item"}
+        linkClass={"page-link"}
+        activePage={this.state.activePage}
+        itemsCountPerPage={this.state.itemsCountPerPage}
+        totalItemsCount={this.state.totalItemsCount}
+        pageRangeDisplayed={this.state.pageRangeDisplayed}
+        onChange={this.handlePageChange.bind(this)}
+    />
     }
 
     render() {
@@ -153,20 +175,12 @@ export class Banque extends Component {
                     </div>
                 </div>
 
-                <div className="row" id="projetnonselectionner">
-                    {this.displayallProject()}
+                <div className="row text-center" id="projetnonselectionner">
+                    {this.state.tabProjet.length > 0 ? this.displayallProject(): this.messageNotFound()}
                 </div>
 
                 <div className="d-flex justify-content-center">
-                    <Pagination
-                        itemClass={"page-item"}
-                        linkClass={"page-link"}
-                        activePage={this.state.activePage}
-                        itemsCountPerPage={this.state.itemsCountPerPage}
-                        totalItemsCount={this.state.totalItemsCount}
-                        pageRangeDisplayed={this.state.pageRangeDisplayed}
-                        onChange={this.handlePageChange.bind(this)}
-                    />
+                   {this.state.tabProjet.length > 0 ? this.paginatedisplay():''}
                 </div>
             </>
         );

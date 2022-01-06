@@ -67345,7 +67345,7 @@ var Banque = /*#__PURE__*/function (_Component) {
     _this.state = {
       tabProjet: [],
       typeProjet: [],
-      selectvalue: "",
+      selectvalue: "Agriculture",
       activePage: 1,
       itemsCountPerPage: 5,
       totalItemsCount: 3,
@@ -67418,12 +67418,13 @@ var Banque = /*#__PURE__*/function (_Component) {
       });
       var selected = this.state.selectvalue;
       setTimeout(function () {
-        if (selected) {
+        if (selected.length > 0) {
           axios.get('select_type_categorie/' + _this3.state.selectvalue).then(function (response) {
             var data = response.data.data;
-            data.length > 0 ? _this3.setState({
+
+            _this3.setState({
               tabProjet: data
-            }) : _this3.getAll();
+            });
           });
         }
       }, 100);
@@ -67444,6 +67445,31 @@ var Banque = /*#__PURE__*/function (_Component) {
           totalItemsCount: data.projet.total,
           activePage: data.projet.current_page
         });
+      });
+    } //Message not found
+
+  }, {
+    key: "messageNotFound",
+    value: function messageNotFound() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-lg-12 col-md-12 d-flex align-items-stretch typeprojet"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "text-center"
+      }, "Aucun r\xE9sultat ne correspond \xE0 votre recherche ... ")));
+    }
+  }, {
+    key: "paginatedisplay",
+    value: function paginatedisplay() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_js_pagination__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        itemClass: "page-item",
+        linkClass: "page-link",
+        activePage: this.state.activePage,
+        itemsCountPerPage: this.state.itemsCountPerPage,
+        totalItemsCount: this.state.totalItemsCount,
+        pageRangeDisplayed: this.state.pageRangeDisplayed,
+        onChange: this.handlePageChange.bind(this)
       });
     }
   }, {
@@ -67475,19 +67501,11 @@ var Banque = /*#__PURE__*/function (_Component) {
           value: data.libelle
         }, data.libelle);
       }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row",
+        className: "row text-center",
         id: "projetnonselectionner"
-      }, this.displayallProject()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.tabProjet.length > 0 ? this.displayallProject() : this.messageNotFound()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "d-flex justify-content-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_js_pagination__WEBPACK_IMPORTED_MODULE_3___default.a, {
-        itemClass: "page-item",
-        linkClass: "page-link",
-        activePage: this.state.activePage,
-        itemsCountPerPage: this.state.itemsCountPerPage,
-        totalItemsCount: this.state.totalItemsCount,
-        pageRangeDisplayed: this.state.pageRangeDisplayed,
-        onChange: this.handlePageChange.bind(this)
-      })));
+      }, this.state.tabProjet.length > 0 ? this.paginatedisplay() : ''));
     }
   }]);
 
@@ -67603,7 +67621,8 @@ var Search = /*#__PURE__*/function (_Component) {
       activePage: 1,
       itemsCountPerPage: 1,
       totalItemsCount: 1,
-      pageRangeDisplayed: 3
+      pageRangeDisplayed: 3,
+      messageBag: 'Aucun résultat ne correspond à votre recherche ...'
     };
     return _this;
   } //function to get all
@@ -67652,7 +67671,9 @@ var Search = /*#__PURE__*/function (_Component) {
           className: "card-title"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "icofont-ui-home"
-        }), data.raison_sociale), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "operateur-info/" + data.id
+        }, data.raison_sociale)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "entry-meta"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "d-flex align-items-center"
@@ -67675,7 +67696,7 @@ var Search = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("time", {
           dateTime: "2020-01-01"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Inscrit le"), " ", data.dateins))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "#",
+          href: "operateur-info/" + data.id,
           className: "offset-2"
         }, "En savoir plus"))));
       });
@@ -67695,10 +67716,8 @@ var Search = /*#__PURE__*/function (_Component) {
           alt: "",
           className: "img-fluid"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "{{route('operateur-info', ['id'=>$operateur2->id])}}"
-        }, data.raison_sociale)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, data.domaine), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("time", {
-          dateTime: "2020-01-01"
-        }, data.dateins)));
+          href: "operateur-info/" + data.id
+        }, data.raison_sociale, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), data.dateins))));
       });
     } //Recherche des elements onclick input
 
@@ -67744,6 +67763,13 @@ var Search = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "messageNotFound",
+    value: function messageNotFound() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "text-center"
+      }, this.state.messageBag);
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -67760,7 +67786,7 @@ var Search = /*#__PURE__*/function (_Component) {
         "data-aos": "fade-up"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
-      }, this.displayAllProjects()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.tabProjet.length > 0 ? this.displayAllProjects() : this.messageNotFound()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-lg-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar",

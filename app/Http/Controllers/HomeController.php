@@ -333,12 +333,14 @@ class HomeController extends Controller
 
 	
     function Connecter (Request $request){
+     
         $email= request("email");
         $password=request("password");
         // $user = DB::table('users')->where('email',$email)->where('password',$password )->first();
-        $user = Auth::attempt(['email' => $email, 'password' => $password]);
+         $user = Auth::attempt(['email' => $email, 'password' => $password]);
+          // dd($user, Auth::user());
         if ($user) {
-            session(['user' => $user]);
+             session(['user' => $user]);
             if(Auth::user()->roles == 'Admin'){
                 return redirect('/tableau_de_bord');
             }else if(Auth::user()->roles == 'Entreprise'){

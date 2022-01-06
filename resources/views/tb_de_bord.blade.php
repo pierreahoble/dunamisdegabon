@@ -141,18 +141,24 @@
 								<hr>
 								<a href="#"> Commission sur les achats :
 									{{DB::table('commision_client')->where('code_client',Auth::user()->code_dinvitation)->get()->sum('montant')}}
-									F</a> <br> <hr>
+									F</a> <br>
+								<hr>
 
-								<a href="">  <i class="ri-price-tag-2-line" style="color: #4233ff; height: 3%;"></i> Bonus de parrainage :
+								<a href=""> 
+									{{-- <i class="ri-price-tag-2-line" style="color: #4233ff; height: 3%;"></i> --}}
+									Bonus de parrainage :
 									@php
 									$d =
 									\Illuminate\Support\Facades\DB::table('bonus_parrainage')->where('parrain_id',Auth::user()->id)->get()->sum('montant');
 									$d = number_format($d, 0, ' ', ' ');
 									echo $d."&nbsp;FCFA";
-									@endphp</a> <br> <hr>
-									<a href="">Bonus de fin d’année : </a> <br> <hr>
-									<a href="">Total amis parrainés :
-										{{DB::table('parrainage')->where('parrain_id',Auth::user()->id)->count()}}</a> <br> <hr>
+									@endphp</a> <br>
+								<hr>
+								<a href="">Bonus de fin d’année : </a> <br>
+								<hr>
+								<a href="">Total amis parrainés :
+									{{DB::table('parrainage')->where('parrain_id',Auth::user()->id)->count()}}</a> <br>
+								<hr>
 
 
 							</h3>
@@ -240,7 +246,66 @@
 			</div>
 
 		</div>
+
+		<div class="row" >
+			<div class="col-lg-12 col-md-4 mt-4">
+			  <div class="icon-box">
+				{{-- <i class="ri-price-tag-2-line" style="color: #4233ff;"></i> --}}
+				<h3 class="text-center">Lien d'invitation :
+				  @php
+				  $code = route('inviter',['users_id'=>Str::limit(Crypt::encrypt(Auth::user()->id),10),'code_dinvitation'=>Auth::user()->code_dinvitation]);
+				  echo "<span id='tocopy'>Bonjour je vous invite à vous inscrire sur la plateforme dunamisdegabon; En devenant
+					client DUNAMIS CLUB, nous vous donnons la possibilité,
+					de disposer des revenus supplémentaires par vos simples achats. DUNAMIS DEVELOPPEMENT et les entreprises
+					nationales se sont engagés dans une convention
+					de partenariat pour amorcer ensemble un développement durable.
+					- Des remises exceptionnelles sur vos achats dans le réseau DUNAMIS CLUB;
+					- Un avantage intéressant pour bénéficier des meilleures conditions tarifaires pour vos achats dans les
+					boutiques, supermarchés, acquisitions de matériels, vos séminaires, formations ou événements clients,
+					location d’hôtels, frais de formation …;
+					- Accès à une plateforme d'achats vous permettant d'obtenir des réductions sur des services B to B
+					(réservations d'hôtels, de voitures, etc...);
+					- Cet avantage est particulièrement destiné aux clients de DUNAMIS CLUB;
+					- Tous les jours, 3% du montant de vos achats de biens et services auprès des entreprises du réseau sont
+					crédités sur votre compte sans limitation;
+					- Gagner des prix en fin d’année afin de réaliser vos rêves;
+					voici mon lien d'invitation :".$code."</span>";
+				  echo "<input type='button' value='Copier' class='js-copy btn btn-primary' data-target='#tocopy'>";
+				  $description="Bonjour je vous invite à vous inscrire sur la plateforme dunamisdegabon; En devenant client
+				  DUNAMIS CLUB, nous vous donnons la possibilité,
+				  de disposer des revenus supplémentaires par vos simples achats. DUNAMIS DEVELOPPEMENT et les entreprises
+				  nationales se sont engagés dans une convention
+				  de partenariat pour amorcer ensemble un développement durable. voici mon lien d'invitation :".$code;
+				  @endphp
+	  
+	  
+			  </div>
+			</div>
+		  </div>
 </section>
+
+
+<div class="share-btn-container">
+	<a href="#" class="facebook-btn">
+	  <i class="fab fa-facebook"></i>
+	</a>
+  
+	<a href="#" class="twitter-btn">
+	  <i class="fab fa-twitter"></i>
+	</a>
+  
+	<a href="#" class="pinterest-btn">
+	  <i class="fab fa-pinterest"></i>
+	</a>
+  
+	<a href="#" class="linkedin-btn">
+	  <i class="fab fa-linkedin"></i>
+	</a>
+  
+	<a href="#" class="whatsapp-btn">
+	  <i class="fab fa-whatsapp"></i>
+	</a>
+  </div>
 
 
 @push('scripts')

@@ -56,6 +56,14 @@ Route::get('/inscription-consultant-mobile','HomeController@icm')->name('inscrip
 Route::get('/inscription-partenaire-mobile','HomeController@ipm')->name('inscription-partenaire-mobile');
 
 
+//Inscription
+Route::get('/inscription','InscriptionController@sinscrire')->name('inscription');
+
+//Lien d'invitation
+Route::get('inviter/{users_id}/{code_dinvitation?}','InscriptionController@inviter')->name('inviter');
+
+
+
 Route::middleware([Authenticate::class])->group(function () {
    
     //TABLEAU DE BORD
@@ -101,10 +109,9 @@ Route::middleware([Authenticate::class])->group(function () {
     //INSCRIPTION
     Route::get('/liste-des-inscriptions','InscriptionController@liste2')->name('liste-des-inscriptions');
     
-    Route::get('/inscription','InscriptionController@sinscrire')->name('inscription');
+    
     Route::get('/inscription2','InscriptionController@sinscrire2')->name('inscription2');
     Route::post('/inscriptionPost','InscriptionController@enregistrer')->name('inscriptionPost');
-    Route::get('inviter/{users_id}/{code_dinvitation?}','InscriptionController@inviter')->name('inviter');
     Route::get('/inscription-operateur','InscriptionController@operateur')->name('inscription-operateur');
     Route::post('/opPost','InscriptionController@opPost')->name('opPost');
     Route::get('/succes-inscription','InscriptionController@succes')->name('succes-inscription');

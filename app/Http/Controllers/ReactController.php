@@ -35,6 +35,7 @@ class ReactController extends Controller
         $seachword = $request['seachword'];
         return $operateur = DB::table('inscription_operateur')
                                 ->where('description','like','%'.$seachword.'%')
+                                ->orWhere('domaine','like','%'.$seachword.'%')
                                 ->get();
     }
 

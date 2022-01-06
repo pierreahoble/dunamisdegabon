@@ -190,7 +190,7 @@ class InscriptionController extends Controller
     {
 		session(['users_id' => $users_id]);
 		session(['code_dinvitation' => $code_dinvitation]);
-		return redirect('/');
+		return redirect('/inscription');
     }
 	
 	

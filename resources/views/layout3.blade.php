@@ -37,6 +37,8 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  @yield('style')
 </head>
 
 <body>
